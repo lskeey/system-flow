@@ -9,12 +9,18 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
+import PropTypes from "prop-types"
 
-const DatePicker = () => {
-  const [date, setDate] = useState()
+const DatePicker = ({date, setDate}) => {
+  const [open, setOpen] = useState(false)
+
+  const handleDateSelect = (selectedDate) => {
+    setDate(selectedDate)
+    setOpen(false)
+  }
 
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
           variant={"outline"}
@@ -22,6 +28,7 @@ const DatePicker = () => {
             "w-full justify-start text-left font-normal",
             !date && "text-muted-foreground"
           )}
+          onClick={() => setOpen(true)}
         >
           <CalendarIcon />
           {date ? format(date, "PPP") : <span>Pick a date</span>}
@@ -31,12 +38,17 @@ const DatePicker = () => {
         <Calendar
           mode="single"
           selected={date}
-          onSelect={setDate}
+          onSelect={handleDateSelect}
           initialFocus
         />
       </PopoverContent>
     </Popover>
   )
+}
+
+DatePicker.propTypes = {
+  date: PropTypes.instanceOf(Date),
+  setDate: PropTypes.func.isRequired
 }
 
 export default DatePicker

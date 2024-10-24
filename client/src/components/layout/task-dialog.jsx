@@ -9,19 +9,24 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import TaskForm from "./task-form"
+import { useState } from "react"
 
 const TaskDialog = () => {
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
+
+  const openDialog = () => setIsDialogOpen(true)
+  const closeDialog = () => setIsDialogOpen(false)
   return (
-    <Dialog>
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
-        <Button className="w-full md:w-auto">+ Add Task</Button>
+        <Button className="w-full md:w-auto" onClick={openDialog}>+ Add Task</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle></DialogTitle>
           <DialogDescription></DialogDescription>
         </DialogHeader>
-          <TaskForm />
+          <TaskForm closeDialog={closeDialog} />
         <DialogFooter>
         </DialogFooter>
       </DialogContent>

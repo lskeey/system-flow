@@ -9,9 +9,20 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import { deleteTask } from "@/services/api"
 import { Cross1Icon } from "@radix-ui/react-icons"
+import PropTypes from "prop-types"
 
-const DeleteAlertDialog = () => {
+const DeleteAlertDialog = ({ id, tasks, setTasks }) => {
+
+  const handleDelete = async (id) => {
+    const res = await deleteTask(id)
+    if (res) {
+      const updatedTasks = tasks.filter(task => task.id !== id);
+      setTasks(updatedTasks)
+    }
+  }
+
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -27,11 +38,17 @@ const DeleteAlertDialog = () => {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction >Delete</AlertDialogAction>
+          <AlertDialogAction onClick={() => handleDelete(id)}>Delete</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
   )
+}
+
+DeleteAlertDialog.propTypes = {
+  id: PropTypes.number.isRequired,
+  tasks: PropTypes.array.isRequired,
+  setTasks: PropTypes.func.isRequired
 }
 
 export default DeleteAlertDialog
