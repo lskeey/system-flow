@@ -12,6 +12,7 @@ import PropTypes from "prop-types"
 import { updateTask } from "@/services/api"
 import { useContext } from "react"
 import { TaskContext } from "@/hooks/TaskContext"
+import TaskDialog from "./task-dialog"
 
 const TaskCard = ({ task }) => {
   const { tasks, setTasks } = useContext(TaskContext);
@@ -43,12 +44,16 @@ const TaskCard = ({ task }) => {
             onCheckedChange={() => handleCheckBox(task)}
           />
         </div>
-        <div className="flex-1 flex flex-col justify-center py-4 space-y-2 cursor-pointer">
-          <CardTitle>{task.description}</CardTitle>
-          <CardDescription className="flex items-center space-x-1">
-            <CalendarIcon />
-            <span className="text-xs">Due to {due_date}</span>
-          </CardDescription>
+        <div className="flex-1">
+          <TaskDialog task={task}>
+            <div className="flex flex-col justify-center py-4 space-y-2 cursor-pointer">
+              <CardTitle>{task.description}</CardTitle>
+              <CardDescription className="flex items-center space-x-1">
+                <CalendarIcon />
+                <span className="text-xs">Due to {due_date}</span>
+              </CardDescription>
+            </div>
+          </TaskDialog>
         </div>
         <div className="flex items-center p-6">
           <DeleteAlertDialog id={task.id} />

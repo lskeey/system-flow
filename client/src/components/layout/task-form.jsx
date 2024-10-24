@@ -2,19 +2,29 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import DatePicker from "./date-picker"
 import { Button } from "@/components/ui/button"
-import { useContext, useState } from "react"
-import { addTask, getTask } from "@/services/api"
+import { useContext, useEffect, useState } from "react"
+import { addTask, getTask, updateTask } from "@/services/api"
 import PropTypes from "prop-types"
 import { TaskContext } from "@/hooks/TaskContext"
 
-const TaskForm = ({ closeDialog }) => {
+const TaskForm = ({ closeDialog, task }) => {
   const { setTasks } = useContext(TaskContext)
   const [description, setDescription] = useState("")
   const [date, setDate] = useState(null)
 
+  useEffect(() => {
+    if (task) {
+      setDescription(task.description);
+      setDate(new Date(task.due_date));
+    }
+  }, [task]);
+
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const res = await addTask(description, date)
+    const res = task
+        ? await updateTask(task.id, description, date)
+        : await addTask(description, date);
+
     if (res) {
       const updatedTasks = await getTask();
       setTasks(updatedTasks);
@@ -41,6 +51,12 @@ const TaskForm = ({ closeDialog }) => {
 
 TaskForm.propTypes = {
   closeDialog: PropTypes.func.isRequired,
+  task: PropTypes.shape({
+    id: PropTypes.number,
+    description: PropTypes.string,
+    due_date: PropTypes.string,
+    status: PropTypes.string,
+  }),
 }
 
 export default TaskForm

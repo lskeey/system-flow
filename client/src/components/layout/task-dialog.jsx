@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button"
 import {
   Dialog,
   DialogContent,
@@ -10,8 +9,9 @@ import {
 } from "@/components/ui/dialog"
 import TaskForm from "./task-form"
 import { useState } from "react"
+import PropTypes from "prop-types"
 
-const TaskDialog = () => {
+const TaskDialog = ({ children, task }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
   const openDialog = () => setIsDialogOpen(true)
@@ -19,19 +19,29 @@ const TaskDialog = () => {
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
-        <Button className="w-full md:w-auto" onClick={openDialog}>+ Add Task</Button>
+        <div className="w-full" onClick={openDialog}>{children}</div>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle></DialogTitle>
           <DialogDescription></DialogDescription>
         </DialogHeader>
-          <TaskForm closeDialog={closeDialog} />
+          <TaskForm closeDialog={closeDialog} task={task} />
         <DialogFooter>
         </DialogFooter>
       </DialogContent>
     </Dialog>
   )
 }
+
+TaskDialog.propTypes = {
+  children: PropTypes.node,
+  task: PropTypes.shape({
+    id: PropTypes.number,
+    description: PropTypes.string,
+    due_date: PropTypes.string,
+    status: PropTypes.string,
+  }),
+};
 
 export default TaskDialog

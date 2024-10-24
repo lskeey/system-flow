@@ -29,6 +29,7 @@ export const addTask = async (description, due_date) => {
 
 export const updateTask = async (id, description, due_date, status) => {
   try {
+    due_date = format(due_date, "yyyy-MM-dd")
     const body = {description, due_date, status}
     const res = await axios.put(`${API_URL}/${id}`, body, {
       headers: { 'Content-Type': 'applicaton/json'}

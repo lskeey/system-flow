@@ -3,6 +3,7 @@ import TaskCard from "./task-card"
 import { useContext } from "react"
 import TaskDialog from "./task-dialog"
 import { TaskContext } from "@/hooks/TaskContext"
+import { Button } from "@/components/ui/button"
 
 const TaskTabs = () => {
   const { tasks } = useContext(TaskContext);
@@ -17,7 +18,9 @@ const TaskTabs = () => {
   return (
     <>
       <div className="flex mb-4 sm:hidden">
-        <TaskDialog />
+        <TaskDialog>
+          <Button className="w-full md:w-auto">+ Add Task</Button>
+        </TaskDialog>
       </div>
       <Tabs defaultValue="all" className="w-full">
         <div className="flex justify-center sm:justify-between items-center mb-4">
@@ -28,7 +31,9 @@ const TaskTabs = () => {
           <TabsTrigger value="past-due">Past due</TabsTrigger>
         </TabsList>
         <div className="hidden sm:block">
-          <TaskDialog />
+          <TaskDialog>
+            <Button className="w-full md:w-auto">+ Add Task</Button>
+          </TaskDialog>
         </div>
         </div>
         {Object.keys(taskGroups).map((status) => (
