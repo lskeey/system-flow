@@ -22,7 +22,7 @@ const TaskForm = ({ closeDialog, task }) => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     const res = task
-        ? await updateTask(task.id, description, date)
+        ? await updateTask(task.id, description, date, task.status)
         : await addTask(description, date);
 
     if (res) {
