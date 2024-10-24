@@ -10,6 +10,7 @@ export const TaskProvider = ({ children }) => {
   const fetchTasks = async () => {
     const data = await getTask();
     const today = new Date();
+    today.setHours(0, 0, 0, 0);
 
     const updatedTasks = await Promise.all(data.map(async task => {
       const dueDate = new Date(task.due_date);

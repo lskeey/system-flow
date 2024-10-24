@@ -35,6 +35,8 @@ const TaskCard = ({ task }) => {
   
   const due_date = format(new Date(task.due_date), "PPP")
   const today = new Date()
+  today.setHours(0, 0, 0, 0);
+
   const isPastDue = new Date(task.due_date) < today
   const isDisabled = isPastDue || task.status === "Past due" 
 
