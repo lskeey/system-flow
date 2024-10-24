@@ -2,18 +2,24 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import DatePicker from "./date-picker"
 import { Button } from "@/components/ui/button"
-import { useState } from "react"
-import { addTask } from "@/services/api"
+import { useContext, useState } from "react"
+import { addTask, getTask } from "@/services/api"
 import PropTypes from "prop-types"
+import { TaskContext } from "@/hooks/TaskContext"
 
 const TaskForm = ({ closeDialog }) => {
+  const { setTasks } = useContext(TaskContext)
   const [description, setDescription] = useState("")
   const [date, setDate] = useState(null)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    await addTask(description, date);
-    closeDialog();
+    const res = await addTask(description, date)
+    if (res) {
+      const updatedTasks = await getTask();
+      setTasks(updatedTasks);
+    } 
+    closeDialog()
   }
 
   return (

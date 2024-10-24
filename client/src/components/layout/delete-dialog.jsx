@@ -9,11 +9,14 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import { TaskContext } from "@/hooks/TaskContext"
 import { deleteTask } from "@/services/api"
 import { Cross1Icon } from "@radix-ui/react-icons"
 import PropTypes from "prop-types"
+import { useContext } from "react"
 
-const DeleteAlertDialog = ({ id, tasks, setTasks }) => {
+const DeleteAlertDialog = ({ id }) => {
+  const { tasks, setTasks } = useContext(TaskContext);
 
   const handleDelete = async (id) => {
     const res = await deleteTask(id)
@@ -47,8 +50,6 @@ const DeleteAlertDialog = ({ id, tasks, setTasks }) => {
 
 DeleteAlertDialog.propTypes = {
   id: PropTypes.number.isRequired,
-  tasks: PropTypes.array.isRequired,
-  setTasks: PropTypes.func.isRequired
 }
 
 export default DeleteAlertDialog

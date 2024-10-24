@@ -20,7 +20,7 @@ export const addTask = async (description, due_date) => {
     const res = await axios.post(`${API_URL}`, body, {
       headers: { 'Content-Type': 'applicaton/json'}
     })
-    return res.data
+    return res
   } catch (err) {
     console.log(err.message)
     return null

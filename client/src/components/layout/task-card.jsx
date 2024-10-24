@@ -10,8 +10,11 @@ import DeleteAlertDialog from "./delete-dialog"
 import { format } from "date-fns"
 import PropTypes from "prop-types"
 import { updateTask } from "@/services/api"
+import { useContext } from "react"
+import { TaskContext } from "@/hooks/TaskContext"
 
-const TaskCard = ({ task, tasks, setTasks }) => {
+const TaskCard = ({ task }) => {
+  const { tasks, setTasks } = useContext(TaskContext);
   
   const handleCheckBox = async (selectedTask) => {
     const newTaskStatus = selectedTask.status === "Completed" ? "Ongoing" : "Completed";
@@ -48,7 +51,7 @@ const TaskCard = ({ task, tasks, setTasks }) => {
           </CardDescription>
         </div>
         <div className="flex items-center p-6">
-          <DeleteAlertDialog id={task.id} tasks={tasks} setTasks={setTasks} />
+          <DeleteAlertDialog id={task.id} />
         </div>
       </CardContent>
     </Card>
@@ -57,13 +60,11 @@ const TaskCard = ({ task, tasks, setTasks }) => {
 
 TaskCard.propTypes = {
   task: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    description: PropTypes.string.isRequired,
-    due_date: PropTypes.string.isRequired,
-    status: PropTypes.string.isRequired,
-  }).isRequired,
-  tasks: PropTypes.array.isRequired,
-  setTasks: PropTypes.func.isRequired
+    id: PropTypes.number,
+    description: PropTypes.string,
+    due_date: PropTypes.string,
+    status: PropTypes.string,
+  }),
 };
 
 export default TaskCard
